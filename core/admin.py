@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Article, Category, Comment, Tag, ArticleTag
+from .models import Article, Category, Comment, Tag, ArticleTag, ArticleCategory
 
 
 @admin.register(Article)
@@ -22,6 +22,9 @@ class ArticleAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name',)
 
+@admin.register(ArticleCategory)
+class ArticleCategoryAdmin(admin.ModelAdmin):
+    list_display = ('article', 'category')
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):

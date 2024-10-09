@@ -35,6 +35,19 @@ class Category(models.Model):
         return self.name
 
 
+class ArticleCategory(models.Model):
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('article', 'category')
+        verbose_name = 'Категория статьи'
+        verbose_name_plural = 'Категории статей'
+
+    def __str__(self):
+        return f'{self.article} - {self.category}'
+
+
 class Comment(models.Model):
     article = models.ForeignKey(Article, related_name='comments', on_delete=models.CASCADE, verbose_name='Статья')
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор')
