@@ -23,6 +23,9 @@ class Article(models.Model):
     def __str__(self):
         return self.title
 
+    def is_published(self):
+        return self.status == 'published'
+
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True, verbose_name='Название категории')
@@ -33,6 +36,9 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+    def article_count(self):
+        return self.articles.count()
 
 
 class ArticleCategory(models.Model):
@@ -62,6 +68,13 @@ class Comment(models.Model):
     def __str__(self):
         return f'Комментарий от {self.author} на {self.article}'
 
+    def is_recent(self):
+        from django.utils import timezone
+        return (timezone.now() - self.created_at).days < 1
+
+    def get_author_username(self):
+        return self.author.username
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=30, unique=True, verbose_name='Название тега')
@@ -72,6 +85,9 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_excerpt(self, length=100):
+        return self.content[:length] + ('...' if len(self.content) > length else '')
 
 
 class ArticleTag(models.Model):
