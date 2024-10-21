@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form method="get">
+    {{ filter.form.as_p }}
+    <button type="submit">Фильтровать</button>
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>Название</th>
+            <th>Автор</th>
+            <th>Дата публикации</th>
+            <th>Цена</th>
+            <th>Издатель</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for book in filter.qs %}
+            <tr>
+                <td>{{ book.title }}</td>
+                <td>{{ book.author }}</td>
+                <td>{{ book.published_date }}</td>
+                <td>{{ book.price }}</td>
+                <td>{{ book.publisher.name }}</td>
+                <td>{{ book.publisher.name }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="5">Нет доступных книг.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
